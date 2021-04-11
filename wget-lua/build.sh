@@ -10,7 +10,7 @@ git clone "${REPO}" "${build_dir}"
 pushd "${build_dir}" || exit 1
 
 if [ "${MULTIARCH}" = "yes" ]; then
-  docker buildx build --platform "${PLATFORM}" -t "${IMAGE}" --load .
+  docker buildx build --platform "${PLATFORM}" -t "${IMAGE}" --push .
 else
   docker build -t "${IMAGE}" .
 fi
