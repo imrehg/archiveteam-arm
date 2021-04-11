@@ -1,0 +1,36 @@
+From c51426bd4c89718e9ef64a3ab2d89156f0e92deb Mon Sep 17 00:00:00 2001
+From: Gergely Imreh <imrehg@gmail.com>
+Date: Sun, 11 Apr 2021 18:31:27 +0000
+Subject: [PATCH] Allow arm build with build essentials required by wheel
+ building
+
+---
+ Dockerfile | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/Dockerfile b/Dockerfile
+index 5691e68..75b22a5 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -1,5 +1,5 @@
+ ARG TLSTYPE=openssl
+-FROM atdr.meo.ws/archiveteam/wget-lua:v1.20.3-at-${TLSTYPE} AS wget
++FROM imrehg/archiveteam-arm-wget-lua:v1.20.3-at-${TLSTYPE} AS wget
+ FROM python:3-slim
+ COPY --from=wget /wget /usr/local/bin/wget-lua
+ ENV LC_ALL=C
+@@ -7,8 +7,10 @@ RUN echo deb http://deb.debian.org/debian buster-backports main contrib > /etc/a
+  && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io update \
+  && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io install rsync liblua5.1-0 libluajit-5.1-2 libidn11 lua-socket libpsl5 git \
+  && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io -t buster-backports install zstd libzstd-dev libzstd1 \
+- && pip install requests seesaw warcio zstandard \
++ && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io install build-essential \
++ && pip install --no-cache-dir requests seesaw warcio zstandard \
+  && chmod +x /usr/local/bin/wget-lua \
++ && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends remove build-essential \
+  && rm -rf /var/lib/apt/lists/*
+ WORKDIR /grab
+ STOPSIGNAL SIGINT
+-- 
+2.31.1
+
