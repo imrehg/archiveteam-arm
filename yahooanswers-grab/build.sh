@@ -1,15 +1,24 @@
+#!/bin/bash
+
+set -eux
 
 REPO=https://github.com/ArchiveTeam/yahooanswers-grab
 PATCH=0001-switch-base-image-to-arm-version.patch
 IMAGE=${IMAGE:-imrehg/archiveteam-arm-yahooanswers-grab}
+MULTIARCH=${MULTIARCH:-yes}
+PLATFORM=${PLATFORM:-linux/arm64,linux/arm/v7}
 
 build_dir="$(mktemp -d /tmp/yahooanswers-grab.XXXXXX)"
 git clone "${REPO}" "${build_dir}"
 cp "${PATCH}" "${build_dir}"
-pushd "${build_dir}"
+pushd "${build_dir}" || exit 1
 git am "${PATCH}"
 
-docker build -t ${IMAGE} .
+if [ "${MULTIARCH}" = "yes" ]; then
+  docker buildx build --platform "${PLATFORM}" -t "${IMAGE}" --push .
+else
+  docker build -t "${IMAGE}" . && docker push "${IMAGE}"
+fi
 
-popd
+popd || exit 1
 rm -rf "${build_dir}"
