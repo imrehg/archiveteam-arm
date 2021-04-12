@@ -5,7 +5,7 @@ set -eux
 REPO=https://github.com/ArchiveTeam/wget-lua
 IMAGE=${IMAGE:-imrehg/archiveteam-arm-wget-lua:v1.20.3-at-openssl}
 MULTIARCH=${MULTIARCH:-yes}
-PLATFORM=${PLATFORM:-linux/arm64,linux/arm/v7}
+PLATFORM=${PLATFORM:-linux/arm64,linux/arm/v7,linux/arm/v6}
 
 build_dir="./build"
 git clone "${REPO}" "${build_dir}"
