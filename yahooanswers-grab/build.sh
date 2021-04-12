@@ -8,11 +8,11 @@ IMAGE=${IMAGE:-imrehg/archiveteam-arm-yahooanswers-grab}
 MULTIARCH=${MULTIARCH:-yes}
 PLATFORM=${PLATFORM:-linux/arm64,linux/arm/v7}
 
-build_dir="$(mktemp -d /tmp/yahooanswers-grab.XXXXXX)"
+build_dir="./build"
 git clone "${REPO}" "${build_dir}"
 cp "${PATCH}" "${build_dir}"
 pushd "${build_dir}" || exit 1
-git am "${PATCH}"
+patch -p1 < "${PATCH}"
 
 if [ "${MULTIARCH}" = "yes" ]; then
   docker buildx build --platform "${PLATFORM}" -t "${IMAGE}" --push .
