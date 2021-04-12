@@ -28,7 +28,7 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-     -
+      -
         name: Build YahooAnswers project
         working-directory: yahooanswers-grab
         run: ./build.sh
