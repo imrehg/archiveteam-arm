@@ -6,7 +6,7 @@ REPO=https://github.com/ArchiveTeam/yahooanswers-grab
 PATCH=0001-switch-base-image-to-arm-version.patch
 IMAGE=${IMAGE:-imrehg/archiveteam-arm-yahooanswers-grab}
 MULTIARCH=${MULTIARCH:-yes}
-PLATFORM=${PLATFORM:-linux/arm64,linux/arm/v7}
+PLATFORM=${PLATFORM:-linux/arm64,linux/arm/v7,linux/arm/v6}
 
 build_dir="./build"
 git clone "${REPO}" "${build_dir}"

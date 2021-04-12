@@ -7,7 +7,7 @@ IMAGE=${IMAGE:-imrehg/archiveteam-arm-wget-lua:v1.20.3-at-openssl}
 MULTIARCH=${MULTIARCH:-yes}
 PLATFORM=${PLATFORM:-linux/arm64,linux/arm/v7}
 
-build_dir="$(mktemp -d /tmp/wget-lua.XXXXXX)"
+build_dir="./build"
 git clone "${REPO}" "${build_dir}"
 pushd "${build_dir}" || exit 1
 
