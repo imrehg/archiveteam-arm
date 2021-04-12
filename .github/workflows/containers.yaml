@@ -29,6 +29,16 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       -
+        name: Build wget-lua image
+        working-directory: wget-lua
+        run: ./build.sh
+
+      -
+        name: Build grab-base image
+        working-directory: grab-base-df
+        run: ./build.sh
+
+      -
         name: Build YahooAnswers project
         working-directory: yahooanswers-grab
         run: ./build.sh
