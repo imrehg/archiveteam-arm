@@ -3,8 +3,9 @@ name: ci
 on:
   push:
     branches:
-      # Push events on main branch
       - main
+    paths-ignore:
+      - '**.md'
   workflow_dispatch:
 
 jobs:
