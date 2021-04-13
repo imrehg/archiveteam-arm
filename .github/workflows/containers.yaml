@@ -5,7 +5,10 @@ on:
     branches:
       - main
     paths-ignore:
+      # Do not trigger on changes that are likely not code changes, such as README
       - '**.md'
+      # Do not trigger on workflow changes, can do manual trigger if needed
+      - '.github/**'
   workflow_dispatch:
 
 jobs:
