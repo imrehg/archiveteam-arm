@@ -26,15 +26,16 @@ if [ -d "${build_dir}" ]; then
 fi
 git clone "${REPO}" "${build_dir}"
 
+script_dir=$(pwd -p)
 pushd "${build_dir}" || exit 1
 
 if [ "${PATCH}" != "" ]; then
   echo "Applying patch..."
-  patch -p1 < $(dirname $0)/${PATCH}
+  patch -p1 < ${script_dir}/${PATCH}
 fi
 
 echo "Replacing image names..."
-sed -i .bak "s|atdr.meo.ws/archiveteam/|${FROM_REPLACE}|" Dockerfile
+sed -i.bak "s|atdr.meo.ws/archiveteam/|${FROM_REPLACE}|" Dockerfile
 
 exit 0
 
