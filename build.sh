@@ -2,8 +2,7 @@
 
 set -eux
 
-
-while getopts r:i:t:p:a: option; do
+while getopts r:i:t:p:a:f: option; do
   case "${option}" in
     r) REPO=${OPTARG};;
     i) IMAGE=${OPTARG};;
@@ -11,11 +10,14 @@ while getopts r:i:t:p:a: option; do
     p) PLATFORM=${OPTARG};;
     a) PATCH=${OPTARG};;
     f) FROM_REPLACE=${OPTARG};;
+    *)
+      echo "Invalid option."
+      exit 2
+      ;;
   esac
 done
 
-# PLATFORM=${PLATFORM:-linux/arm64,linux/arm/v7,linux/arm/v6}
-PLATFORM=${PLATFORM:-linux/arm64}
+PLATFORM=${PLATFORM:-linux/arm64,linux/arm/v7,linux/arm/v6}
 PATCH=${PATCH:-}
 FROM_REPLACE=${FROM_REPLACE:-imrehg/archiveteam-arm-}
 
@@ -31,13 +33,11 @@ pushd "${build_dir}" || exit 1
 
 if [ "${PATCH}" != "" ]; then
   echo "Applying patch..."
-  patch -p1 < ${script_dir}/${PATCH}
+  patch -p1 < "${script_dir}/${PATCH}"
 fi
 
 echo "Replacing image names..."
 sed -i.bak "s|atdr.meo.ws/archiveteam/|${FROM_REPLACE}|" Dockerfile
-
-exit 0
 
 COMMIT_ID=$(git rev-parse HEAD)
 
