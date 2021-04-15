@@ -1,0 +1,18 @@
+name: Docker Image
+
+on: 
+  push:
+    paths:
+      - '**.sh'
+
+jobs:
+  docker-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run shellcheck on scripts
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          apt-get update && apt-get install -qy shellcheck
+          find infrastructure/container -name "*.sh" | xargs -I{} sh -c "echo Checking {}; shellcheck {}"
