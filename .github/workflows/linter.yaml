@@ -5,6 +5,12 @@ on:
     paths:
       - '**.sh'
       - '**.py'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**.sh'
+      - '**.py'
 
 jobs:
   shell-lint:
