@@ -21,6 +21,13 @@ project_list = {
         patch="grab-base.patch",
         depends_on="wget",
     ),
+    "urls": Project(
+        git_repo="https://github.com/ArchiveTeam/urls-grab",
+        docker_repo="imrehg/archiveteam-arm-urls-grab",
+        tag="latest",
+        patch=None,
+        depends_on="grab-base",
+    ),
     "yahoo": Project(
         git_repo="https://github.com/ArchiveTeam/yahooanswers-grab",
         docker_repo="imrehg/archiveteam-arm-yahooanswers-grab",
