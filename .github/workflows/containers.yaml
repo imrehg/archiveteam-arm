@@ -36,4 +36,4 @@ jobs:
         run: pip install -r requirements.txt
       -
         name: Build projects
-        run: invoke buildall
+        run: invoke -e buildall
