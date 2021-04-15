@@ -1,6 +1,7 @@
-from invoke import task
 from collections import namedtuple
 
+from invoke import task
+from invoke.exceptions import UnexpectedExit
 
 Project = namedtuple(
     "Project", ("git_repo", "docker_repo", "tag", "patch", "depends_on")
@@ -42,11 +43,11 @@ def get_remote_revision(c, repo):
 
 def image_exists(c, image):
     try:
-        res = c.run(f"docker manifest inspect {image}", hide="both")
-        result = True
-    except:
-        result = False
-    return result
+        c.run(f"docker manifest inspect {image}", hide="both")
+        exists = True
+    except UnexpectedExit:
+        exists = False
+    return exists
 
 
 @task
@@ -96,8 +97,3 @@ def buildall(c, force=False):
         dependencies = to_do_list
         if len(dependencies) == 0:
             break
-
-
-# Build (one project, force or cache - skip_if_exists)
-# Build all (dependency tree!, force or cache)
-# Invoke the build scripts with the relevant parameters
