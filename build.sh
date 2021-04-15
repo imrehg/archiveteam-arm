@@ -26,7 +26,7 @@ if [ -d "${build_dir}" ]; then
 fi
 git clone "${REPO}" "${build_dir}"
 
-script_dir=$(pwd -p)
+script_dir=$(pwd -P)
 pushd "${build_dir}" || exit 1
 
 if [ "${PATCH}" != "" ]; then
