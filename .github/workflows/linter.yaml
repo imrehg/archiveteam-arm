@@ -1,12 +1,13 @@
-name: Docker Image
+name: scripts
 
 on: 
   push:
     paths:
       - '**.sh'
+      - '**.py'
 
 jobs:
-  docker-lint:
+  shell-lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,4 +16,15 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           apt-get update && apt-get install -qy shellcheck
-          find infrastructure/container -name "*.sh" | xargs -I{} sh -c "echo Checking {}; shellcheck {}"
+          find . -name "*.sh" | xargs -I{} sh -c "echo Checking {}; shellcheck {}"
+
+  python-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: pip install --upgrade black flake8
+      - name: Run black check
+        run: black -c -l 79 *.py
+      - name: Run flake8 test
+        run: flake8 --ignore=E501 *.py
