@@ -15,7 +15,7 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          apt-get update && apt-get install -qy shellcheck
+          sudo apt-get update && sudo apt-get install -qy shellcheck
           find . -name "*.sh" | xargs -I{} sh -c "echo Checking {}; shellcheck {}"
 
   python-lint:
@@ -25,6 +25,6 @@ jobs:
       - name: Install dependencies
         run: pip install --upgrade black flake8
       - name: Run black check
-        run: black -c -l 79 *.py
+        run: black -l79 -c *.py
       - name: Run flake8 test
         run: flake8 --ignore=E501 *.py
