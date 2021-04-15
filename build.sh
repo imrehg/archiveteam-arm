@@ -10,12 +10,14 @@ while getopts r:i:t:p:a: option; do
     t) TAG=${OPTARG};;
     p) PLATFORM=${OPTARG};;
     a) PATCH=${OPTARG};;
+    f) FROM_REPLACE=${OPTARG};;
   esac
 done
 
 # PLATFORM=${PLATFORM:-linux/arm64,linux/arm/v7,linux/arm/v6}
 PLATFORM=${PLATFORM:-linux/arm64}
 PATCH=${PATCH:-}
+FROM_REPLACE=${FROM_REPLACE:-imrehg/archiveteam-arm-}
 
 build_dir="./build"
 if [ -d "${build_dir}" ]; then
@@ -31,12 +33,15 @@ if [ "${PATCH}" != "" ]; then
   patch -p1 < $(dirname $0)/${PATCH}
 fi
 
+echo "Replacing image names..."
+sed -i .bak "s|atdr.meo.ws/archiveteam/|${FROM_REPLACE}|" Dockerfile
+
+exit 0
+
 COMMIT_ID=$(git rev-parse HEAD)
 
 IMAGE_TAGGED="${IMAGE}:${TAG}"
 IMAGE_SHA="${IMAGE}:${COMMIT_ID}"
-
-docker buildx build --platform "${PLATFORM}" -t "${IMAGE}"  --push .
 
 if [ "${PLATFORM}" != "" ]; then
   docker buildx build \

@@ -2,8 +2,6 @@ from invoke import task
 from collections import namedtuple
 
 
-repo_replace = {"atdr.meo.ws/archiveteam/": "imrehg/archiveteam-arm-"}
-
 Project = namedtuple(
     "Project", ("git_repo", "docker_repo", "tag", "patch", "depends_on")
 )
