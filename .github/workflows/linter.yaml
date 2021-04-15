@@ -18,10 +18,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run shellcheck on scripts
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: |
-          sudo apt-get update && sudo apt-get install -qy shellcheck
           find . -name "*.sh" | xargs -I{} sh -c "echo Checking {}; shellcheck {}"
 
   python-lint:
