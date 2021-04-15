@@ -33,4 +33,4 @@ jobs:
       - name: Run black check
         run: black -l79 -c *.py
       - name: Run flake8 test
-        run: flake8 --ignore=E501 *.py
+        run: flake8 --ignore=E501 --count *.py
