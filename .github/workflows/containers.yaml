@@ -10,6 +10,11 @@ on:
       # Do not trigger on workflow changes, can do manual trigger if needed
       - '.github/**'
   workflow_dispatch:
+    inputs:
+      flag:
+        description: 'Invoke flag'
+        required: false
+        default: '--force'
 
 jobs:
   build:
@@ -36,4 +41,4 @@ jobs:
         run: pip install -r requirements.txt
       -
         name: Build projects
-        run: invoke -e buildall
+        run: invoke -e buildall ${{ github.event.inputs.flag }}
