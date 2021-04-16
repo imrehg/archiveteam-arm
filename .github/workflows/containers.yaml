@@ -9,12 +9,14 @@ on:
       - '**.md'
       # Do not trigger on workflow changes, can do manual trigger if needed
       - '.github/**'
+  schedule:
+    - cron:  '*/30 * * * *'
   workflow_dispatch:
     inputs:
-      flag:
-        description: 'Invoke flag'
-        required: false
-        default: '--force'
+      invoke_args:
+        description: 'Invoke arguments'
+        required: true
+        default: 'buildall --force'
 
 jobs:
   build:
@@ -40,5 +42,12 @@ jobs:
         name: Set up build requirements
         run: pip install -r requirements.txt
       -
+        name: Build projects from manual trigger
+        if: ${{ github.event_name }} == "workflow_dispatch"
+        run: |
+          invoke -e ${{ github.event.inputs.invok_args }}
+
         name: Build projects
-        run: invoke -e buildall ${{ github.event.inputs.flag }}
+        if: ${{ github.event_name }} != "workflow_dispatch"
+        run: |
+          invoke -e buildall
