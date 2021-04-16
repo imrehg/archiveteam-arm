@@ -42,12 +42,10 @@ jobs:
         name: Set up build requirements
         run: pip install -r requirements.txt
       -
-        name: Build projects from manual trigger
-        if: ${{ github.event_name }} == "workflow_dispatch"
-        run: |
-          invoke -e ${{ github.event.inputs.invok_args }}
-
         name: Build projects
         if: ${{ github.event_name }} != "workflow_dispatch"
-        run: |
-          invoke -e buildall
+        run: invoke -e buildall
+      -
+        name: Build projects from manual trigger
+        if: ${{ github.event_name }} == "workflow_dispatch"
+        run: invoke -e ${{ github.event.inputs.invok_args }}
