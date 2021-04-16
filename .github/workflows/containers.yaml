@@ -16,7 +16,7 @@ on:
       invoke_args:
         description: 'Invoke arguments'
         required: true
-        default: 'buildall --force'
+        default: 'buildall'
 
 jobs:
   build:
@@ -44,8 +44,11 @@ jobs:
       -
         name: Build projects
         if: ${{ github.event_name }} != "workflow_dispatch"
-        run: invoke -e buildall
+        run: |
+          echo "${{ github.event_name }}"
+          echo "${{ github.event }}""
+          invoke -e buildall
       -
         name: Build projects from manual trigger
         if: ${{ github.event_name }} == "workflow_dispatch"
-        run: invoke -e ${{ github.event.inputs.invok_args }}
+        run: invoke -e ${{ github.event.inputs.invoke_args }}
