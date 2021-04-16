@@ -1,0 +1,32 @@
+name: scripts
+
+on: 
+  push:
+    paths:
+      - '**.sh'
+      - '**.py'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**.sh'
+      - '**.py'
+
+jobs:
+  shell-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run shellcheck on scripts
+        run: find . -name "*.sh" | xargs -I{} sh -c "echo Checking {}; shellcheck {}"
+
+  python-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: pip install --upgrade black flake8
+      - name: Run black check
+        run: black -l79 -c *.py
+      - name: Run flake8 test
+        run: flake8 --ignore=E501 --count *.py
