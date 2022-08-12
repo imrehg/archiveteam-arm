@@ -2,7 +2,8 @@
 
 set -eux
 
-while getopts r:i:t:p:a:f: option; do
+BUILD_ARGS=()
+while getopts r:i:t:p:a:f:b: option; do
   case "${option}" in
     r) REPO=${OPTARG};;
     i) IMAGE=${OPTARG};;
@@ -10,6 +11,7 @@ while getopts r:i:t:p:a:f: option; do
     p) PLATFORM=${OPTARG};;
     a) PATCH=${OPTARG};;
     f) FROM_REPLACE=${OPTARG};;
+    b) BUILD_ARGS+=(--build-arg "$OPTARG");;
     *)
       echo "Invalid option."
       exit 2
@@ -26,7 +28,7 @@ if [ -d "${build_dir}" ]; then
   echo "Cleaning up left-over build directoru: ${build_dir}"
   rm -rf "${build_dir}"
 fi
-git clone "${REPO}" "${build_dir}"
+git clone --depth 1 "${REPO}" "${build_dir}"
 
 script_dir=$(pwd -P)
 pushd "${build_dir}" || exit 1
@@ -49,11 +51,13 @@ if [ "${PLATFORM}" != "" ]; then
     --platform "${PLATFORM}" \
     --tag "${IMAGE_TAGGED}" \
     --tag "${IMAGE_SHA}" \
+    "${BUILD_ARGS[@]+"${BUILD_ARGS[@]}"}" \
     --push .
 else
   docker build \
     --tag "${IMAGE_TAGGED}" \
     --tag "${IMAGE_SHA}" \
+    "${BUILD_ARGS[@]+"${BUILD_ARGS[@]}"}" \
     . \
   && docker push "${IMAGE_TAGGED}" \
   && docker push "${IMAGE_SHA}"
