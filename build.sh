@@ -25,7 +25,7 @@ FROM_REPLACE=${FROM_REPLACE:-imrehg/archiveteam-arm-}
 
 build_dir="./build"
 if [ -d "${build_dir}" ]; then
-  echo "Cleaning up left-over build directoru: ${build_dir}"
+  echo "Cleaning up left-over build directory: ${build_dir}"
   rm -rf "${build_dir}"
 fi
 git clone --depth 1 "${REPO}" "${build_dir}"
