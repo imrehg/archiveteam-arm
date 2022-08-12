@@ -19,7 +19,7 @@ while getopts r:i:t:p:a:f:b: option; do
   esac
 done
 
-PLATFORM=${PLATFORM:-linux/arm64,linux/arm/v7,linux/arm/v6}
+PLATFORM=${PLATFORM:-linux/arm64,linux/arm/v7}
 PATCH=${PATCH:-}
 FROM_REPLACE=${FROM_REPLACE:-imrehg/archiveteam-arm-}
 
