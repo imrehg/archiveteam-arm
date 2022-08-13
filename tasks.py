@@ -8,7 +8,7 @@ Project = namedtuple(
 )
 
 project_list = {
-    "wget": Project(
+    "wget-gnutls": Project(
         git_repo="https://github.com/ArchiveTeam/wget-lua",
         docker_repo="imrehg/archiveteam-arm-wget-lua",
         tag="v1.21.3-at-gnutls",
@@ -16,12 +16,12 @@ project_list = {
         depends_on=None,
         build_args=["TLSTYPE=gnutls"],
     ),
-    "grab-base": Project(
+    "grab-base-gnutls": Project(
         git_repo="https://github.com/ArchiveTeam/grab-base-df",
         docker_repo="imrehg/archiveteam-arm-grab-base",
         tag="gnutls",
         patch="grab-base.patch",
-        depends_on="wget",
+        depends_on="wget-gnutls",
         build_args=["TLSTYPE=gnutls"],
     ),
     "reddit": Project(
@@ -29,7 +29,7 @@ project_list = {
         docker_repo="imrehg/archiveteam-arm-reddit-grab",
         tag="latest",
         patch=None,
-        depends_on="grab-base",
+        depends_on="grab-base-gnutls",
         build_args=[],
     ),
 }

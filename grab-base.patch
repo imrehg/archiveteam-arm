@@ -1,28 +1,30 @@
-From 5573cec1bc0843f0bc05b556d0c09fe542fc85da Mon Sep 17 00:00:00 2001
-From: Gergely Imreh <imrehg@gmail.com>
-Date: Sun, 11 Apr 2021 18:31:27 +0000
+From 23db0b0738ade33c94e3b3de4b3f558032314fa5 Mon Sep 17 00:00:00 2001
+From: Gergely Imreh <gergely.imreh@faculty.ai>
+Date: Sat, 13 Aug 2022 09:04:56 +0800
 Subject: [PATCH] Allow arm build with build essentials required by wheel
  building
 
 ---
- Dockerfile | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ Dockerfile | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/Dockerfile b/Dockerfile
-index 1ec5f69..75b22a5 100644
+index 2e97231..eeaffdc 100644
 --- a/Dockerfile
 +++ b/Dockerfile
-@@ -7,8 +7,10 @@ RUN echo deb http://deb.debian.org/debian buster-backports main contrib > /etc/a
+@@ -7,10 +7,12 @@ RUN echo deb http://deb.debian.org/debian buster-backports main contrib > /etc/a
   && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io update \
-  && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io install rsync liblua5.1-0 libluajit-5.1-2 libidn11 lua-socket libpsl5 git \
+  && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io install gzip rsync liblua5.1-0 libluajit-5.1-2 libidn11 lua-socket lua-filesystem lua-sec lua-zip libpsl5 git poppler-utils luarocks libidn2-0-dev gcc \
   && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io -t buster-backports install zstd libzstd-dev libzstd1 \
 + && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io install build-essential \
-  && pip install --no-cache-dir requests seesaw warcio zstandard \
+  && pip install --no-cache-dir requests seesaw zstandard \
+  && luarocks install html-entities \
+  && luarocks install idn2 \
   && chmod +x /usr/local/bin/wget-lua \
 + && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends remove build-essential \
   && rm -rf /var/lib/apt/lists/*
+ RUN /usr/local/bin/wget-lua --help | grep -iE "gnu|warc|lua"
  WORKDIR /grab
- STOPSIGNAL SIGINT
 -- 
-2.31.1
+2.37.2
 
