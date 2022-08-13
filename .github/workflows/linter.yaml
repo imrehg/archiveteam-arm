@@ -1,31 +1,38 @@
 name: scripts
 
-on: 
+on:
   push:
     paths:
       - '**.sh'
       - '**.py'
+      - '.github/workflows/linter.yaml'
   pull_request:
     branches:
       - main
     paths:
       - '**.sh'
       - '**.py'
+      - '.github/workflows/linter.yaml'
 
 jobs:
   shell-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run shellcheck on scripts
         run: find . -name "*.sh" | xargs -I{} sh -c "echo Checking {}; shellcheck {}"
 
   python-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
       - name: Install dependencies
-        run: pip install --upgrade black flake8
+        run: pip install --upgrade isort black flake8
+      - name: Run isort check
+        run: isort --profile black --check-only *.py
       - name: Run black check
         run: black -l79 -c *.py
       - name: Run flake8 test
