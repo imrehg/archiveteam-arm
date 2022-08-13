@@ -5,12 +5,14 @@ on:
     paths:
       - '**.sh'
       - '**.py'
+      - '.github/workflows/linter.yaml'
   pull_request:
     branches:
       - main
     paths:
       - '**.sh'
       - '**.py'
+      - '.github/workflows/linter.yaml'
 
 jobs:
   shell-lint:
