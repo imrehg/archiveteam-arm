@@ -3,7 +3,7 @@
 [Archive Team](https://wiki.archiveteam.org/) is saving our digital heritage.
 They have stand-alone VirtualBox-packaged versions of their archivers, and
 also have instructions to [run Archive Team projects with Docker](https://wiki.archiveteam.org/index.php/Running_Archive_Team_Projects_with_Docker).
-The offical images are however only available for x86_64 (amd64). The
+The official images are however only available for x86_64 (amd64). The
 projects themselves run a mixture of Lua/Python, and should just work
 on ARM processors, widening the list of available hardware that can be used
 to archive (e.g. [RaspberryPi](https://www.raspberrypi.org/), or other
@@ -21,14 +21,14 @@ The following lists of projects are supported so far and have images:
 
 | Project | Official Image | ARM Image (this repo) |
 | ------- | -------------- | --------------------- |
-| [Yahoo! Answers](https://wiki.archiveteam.org/index.php/Yahoo!_Answers) | `atdr.meo.ws/archiveteam/yahooanswers-grab` | [`imrehg/archiveteam-arm-yahooanswers-grab`](https://hub.docker.com/repository/docker/imrehg/archiveteam-arm-yahooanswers-grab) |
+| [Reddit](https://wiki.archiveteam.org/index.php/Reddit) | `atdr.meo.ws/archiveteam/reddit-grab` | [`imrehg/archiveteam-arm-reddit-grab`](https://hub.docker.com/repository/docker/imrehg/archiveteam-arm-reddit-grab) |
 
 In addition to the project images, the following base images are provided:
 
 | Official Image | ARM Image (this repo) |
 | -------------- | --------------------- |
-| `atdr.meo.ws/archiveteam/wget-lua` | [`imrehg/archiveteam-arm-wget-lua`](https://hub.docker.com/repository/docker/imrehg/archiveteam-arm-wget-lua) |
-| `atdr.meo.ws/archiveteam/grab-base` | [`imrehg/archiveteam-arm-grab-base`](https://hub.docker.com/repository/docker/imrehg/archiveteam-arm-grab-base) |
+| `atdr.meo.ws/archiveteam/wget-lua` | [`imrehg/archiveteam-arm-wget-lua`](https://hub.docker.com/repository/docker/imrehg/archiveteam-arm-wget-lua) (gnutls version only) |
+| `atdr.meo.ws/archiveteam/grab-base` | [`imrehg/archiveteam-arm-grab-base`](https://hub.docker.com/repository/docker/imrehg/archiveteam-arm-grab-base) (gnutls version only) |
 
 ## Multiarch builds
 

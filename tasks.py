@@ -4,30 +4,33 @@ from invoke import task
 from invoke.exceptions import UnexpectedExit
 
 Project = namedtuple(
-    "Project", ("git_repo", "docker_repo", "tag", "patch", "depends_on")
+    "Project", ("git_repo", "docker_repo", "tag", "patch", "depends_on", "build_args")
 )
 
 project_list = {
     "wget": Project(
         git_repo="https://github.com/ArchiveTeam/wget-lua",
         docker_repo="imrehg/archiveteam-arm-wget-lua",
-        tag="v1.20.3-at-openssl",
+        tag="v1.21.3-at-gnutls",
         patch=None,
         depends_on=None,
+        build_args=["TLSTYPE=gnutls"],
     ),
     "grab-base": Project(
         git_repo="https://github.com/ArchiveTeam/grab-base-df",
         docker_repo="imrehg/archiveteam-arm-grab-base",
-        tag="latest",
+        tag="gnutls",
         patch="grab-base.patch",
         depends_on="wget",
+        build_args=["TLSTYPE=gnutls"],
     ),
-    "yahoo": Project(
-        git_repo="https://github.com/ArchiveTeam/yahooanswers-grab",
-        docker_repo="imrehg/archiveteam-arm-yahooanswers-grab",
+    "reddit": Project(
+        git_repo="https://github.com/ArchiveTeam/reddit-grab",
+        docker_repo="imrehg/archiveteam-arm-reddit-grab",
         tag="latest",
         patch=None,
         depends_on="grab-base",
+        build_args=[],
     ),
 }
 
@@ -75,6 +78,8 @@ def build(c, project_name, force=False):
         cmd = f"./build.sh -r {project.git_repo} -i {project.docker_repo} -t {project.tag}"
         if project.patch is not None:
             cmd += f" -a {project.patch}"
+        for build_arg in project.build_args:
+            cmd += f" -b {build_arg}"
         c.run(cmd)
 
     return BuildResult(rebuilt=to_build)
