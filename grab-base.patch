@@ -1,30 +1,24 @@
-From 23db0b0738ade33c94e3b3de4b3f558032314fa5 Mon Sep 17 00:00:00 2001
+From bed8d36a318bc4deb03dd63ebe2c23f4390ed8ab Mon Sep 17 00:00:00 2001
 From: Gergely Imreh <gergely.imreh@faculty.ai>
-Date: Sat, 13 Aug 2022 09:04:56 +0800
-Subject: [PATCH] Allow arm build with build essentials required by wheel
- building
+Date: Sat, 13 Aug 2022 19:18:07 +0800
+Subject: [PATCH] fix luarock's site_config architecture (temporary)
 
 ---
- Dockerfile | 2 ++
- 1 file changed, 2 insertions(+)
+ Dockerfile | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/Dockerfile b/Dockerfile
-index 2e97231..eeaffdc 100644
+index 2e97231..7a0624f 100644
 --- a/Dockerfile
 +++ b/Dockerfile
-@@ -7,10 +7,12 @@ RUN echo deb http://deb.debian.org/debian buster-backports main contrib > /etc/a
-  && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io update \
+@@ -8,6 +8,7 @@ RUN echo deb http://deb.debian.org/debian buster-backports main contrib > /etc/a
   && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io install gzip rsync liblua5.1-0 libluajit-5.1-2 libidn11 lua-socket lua-filesystem lua-sec lua-zip libpsl5 git poppler-utils luarocks libidn2-0-dev gcc \
   && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io -t buster-backports install zstd libzstd-dev libzstd1 \
-+ && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-unsafe-io install build-essential \
   && pip install --no-cache-dir requests seesaw zstandard \
++ && sed -i 's/lib\/x86_64-linux-gnu/lib\/'`gcc -dumpmachine`'/' /usr/share/lua/*/luarocks/site_config.lua \
   && luarocks install html-entities \
   && luarocks install idn2 \
   && chmod +x /usr/local/bin/wget-lua \
-+ && DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get -qqy --no-install-recommends remove build-essential \
-  && rm -rf /var/lib/apt/lists/*
- RUN /usr/local/bin/wget-lua --help | grep -iE "gnu|warc|lua"
- WORKDIR /grab
 -- 
 2.37.2
 
