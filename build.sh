@@ -43,22 +43,22 @@ sed -i.bak "s|atdr.meo.ws/archiveteam/|${FROM_REPLACE}|" Dockerfile
 
 COMMIT_ID=$(git rev-parse HEAD)
 
-IMAGE_TAGGED="${IMAGE}:${TAG}"
-IMAGE_SHA="${IMAGE}:${COMMIT_ID}"
+# Generate all the required tagging flags
+IMAGE_TAG_FLAGS=(--tag "${IMAGE}:${COMMIT_ID}" --tag "${IMAGE}:${TAG}")
+if [ "$TAG" != 'latest' ]; then
+  # Always include 'latest'
+  IMAGE_TAG_FLAGS+=(--tag "${IMAGE}:latest")
+fi
 
 if [ "${PLATFORM}" != "" ]; then
   docker buildx build \
     --platform "${PLATFORM}" \
-    --tag "${IMAGE_TAGGED}" \
-    --tag "${IMAGE_SHA}" \
-    --tag "latest" \
+    "${IMAGE_TAG_FLAGS[@]+"${IMAGE_TAG_FLAGS[@]}"}" \
     "${BUILD_ARGS[@]+"${BUILD_ARGS[@]}"}" \
     --push .
 else
   docker build \
-    --tag "${IMAGE_TAGGED}" \
-    --tag "${IMAGE_SHA}" \
-    --tag "latest" \
+    "${IMAGE_TAG_FLAGS[@]+"${IMAGE_TAG_FLAGS[@]}"}" \
     "${BUILD_ARGS[@]+"${BUILD_ARGS[@]}"}" \
     . \
   && docker push "${IMAGE_TAGGED}" \
