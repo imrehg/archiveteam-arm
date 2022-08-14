@@ -32,6 +32,14 @@ project_list = {
         depends_on="grab-base",
         build_args=[],
     ),
+    "telegram": Project(
+        git_repo="https://github.com/ArchiveTeam/telegram-grab",
+        docker_repo="imrehg/archiveteam-arm-telegram-grab",
+        tag="latest",
+        patch=None,
+        depends_on="grab-base",
+        build_args=[],
+    ),
 }
 
 BuildResult = namedtuple("BuildResult", ("rebuilt"))
