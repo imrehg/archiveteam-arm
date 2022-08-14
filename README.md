@@ -23,6 +23,7 @@ The following lists of projects are supported so far and have images:
 | ------- | -------------- | --------------------- |
 | [Reddit](https://wiki.archiveteam.org/index.php/Reddit) | `atdr.meo.ws/archiveteam/reddit-grab` | [`imrehg/archiveteam-arm-reddit-grab`](https://hub.docker.com/repository/docker/imrehg/archiveteam-arm-reddit-grab) |
 | [Telegram](https://wiki.archiveteam.org/index.php/Telegram) | `atdr.meo.ws/archiveteam/telegram-grab` | [`imrehg/archiveteam-arm-telegram-grab`](https://hub.docker.com/repository/docker/imrehg/archiveteam-arm-telegram-grab) |
+| Ukraine | `atdr.meo.ws/archiveteam/ua-grab` | [`imrehg/archiveteam-arm-ua-grab`](https://hub.docker.com/repository/docker/imrehg/archiveteam-arm-ua-grab) |
 
 
 In addition to the project images, the following base images are provided:

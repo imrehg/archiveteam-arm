@@ -40,6 +40,14 @@ project_list = {
         depends_on="grab-base",
         build_args=[],
     ),
+    "ua": Project(
+        git_repo="https://github.com/ArchiveTeam/ua-grab",
+        docker_repo="imrehg/archiveteam-arm-ua-grab",
+        tag="latest",
+        patch="ua-grab.patch",
+        depends_on="grab-base",
+        build_args=[],
+    ),
 }
 
 BuildResult = namedtuple("BuildResult", ("rebuilt"))
