@@ -51,12 +51,14 @@ if [ "${PLATFORM}" != "" ]; then
     --platform "${PLATFORM}" \
     --tag "${IMAGE_TAGGED}" \
     --tag "${IMAGE_SHA}" \
+    --tag "latest" \
     "${BUILD_ARGS[@]+"${BUILD_ARGS[@]}"}" \
     --push .
 else
   docker build \
     --tag "${IMAGE_TAGGED}" \
     --tag "${IMAGE_SHA}" \
+    --tag "latest" \
     "${BUILD_ARGS[@]+"${BUILD_ARGS[@]}"}" \
     . \
   && docker push "${IMAGE_TAGGED}" \
