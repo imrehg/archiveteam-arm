@@ -44,7 +44,7 @@ project_list = {
         git_repo="https://github.com/ArchiveTeam/ua-grab",
         docker_repo="imrehg/archiveteam-arm-ua-grab",
         tag="latest",
-        patch=None,
+        patch="ua-grab.patch",
         depends_on="grab-base",
         build_args=[],
     ),
